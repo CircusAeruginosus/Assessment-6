@@ -8,8 +8,21 @@ const Rollbar = require("rollbar");
 app.use(express.json())
 
 //middleware to serve files from the public folder
-app.use(express.static("public"))
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/index.html"))
+})
 
+app.get("/styles", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/index.css"))
+})
+
+app.get("/js", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/index.js"))
+})
+
+// app.use(express.static("public"))
+
+//connecting to Rollbar
 const rollbar = new Rollbar ({
     accessToken: '3ec54585942c494e9bed406aa5a3da27',
     captureUncaught: true,
@@ -18,15 +31,6 @@ const rollbar = new Rollbar ({
 
 
 //endpoints
-
-app.get("/", () => {
-    res.sendFile(path.join(__dirname, "../index.html"))
-})
-
-// app.get("/", () => {
-//     res.sendFile(path.join(__dirname, "../index.js"))
-// })
-
 app.get('/api/robots', (req, res) => {
     try {
         res.status(200).send(botsArr)
@@ -94,13 +98,23 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/index.html"))
 })
 
+app.get("/api/robots", (req, res) => {
+    rollbar.info("someone clicked 'get all bots'")
+
+    res.sendFile(path.join(__dirname, "../public/index.html"))
+})
 
 
 
-rollbar.log("server started")
+
+
+
+
+
 
 const port = process.env.PORT || 3000
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`)
+    rollbar.info("server started")
+    console.log(`Listening on port ${port}`)
 })

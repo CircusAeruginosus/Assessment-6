@@ -32,5 +32,5 @@ test ("draw button", async () => {
 test ("add to duo button", async () => {
     await driver.sleep(2000)
 
-    const addBtn = await driver.findElement(By.xpath(""))
+    const addBtn = await driver.findElement(By.xpath("(//section/div)[2]"))
 })
