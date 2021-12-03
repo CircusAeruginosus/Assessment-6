@@ -6,6 +6,24 @@ const {shuffleArray} = require('./utils')
 
 app.use(express.json())
 
+//middleware to serve files from the public folder
+app.use(express.static("public"))
+
+
+//endpoints
+
+app.get("/", () => {
+    res.sendFile(path.join(__dirname, "../index.html"))
+})
+
+// app.get("/", () => {
+//     res.sendFile(path.join(__dirname, "/index.css"))
+// })
+
+// app.get("/", () => {
+//     res.sendFile(path.join(__dirname, "../index.js"))
+// })
+
 app.get('/api/robots', (req, res) => {
     try {
         res.status(200).send(botsArr)
