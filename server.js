@@ -17,10 +17,6 @@ app.get("/", () => {
 })
 
 // app.get("/", () => {
-//     res.sendFile(path.join(__dirname, "/index.css"))
-// })
-
-// app.get("/", () => {
 //     res.sendFile(path.join(__dirname, "../index.js"))
 // })
 
