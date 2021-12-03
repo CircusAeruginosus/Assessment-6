@@ -1,13 +1,20 @@
-const express = require('express')
-const path = require('path')
-const app = express()
-const {bots, playerRecord} = require('./data')
-const {shuffleArray} = require('./utils')
+const express = require('express');
+const path = require('path');
+const app = express();
+const {bots, playerRecord} = require('./data');
+const {shuffleArray} = require('./utils');
+const Rollbar = require("rollbar");
 
 app.use(express.json())
 
 //middleware to serve files from the public folder
 app.use(express.static("public"))
+
+const rollbar = new Rollbar ({
+    accessToken: '3ec54585942c494e9bed406aa5a3da27',
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+})
 
 
 //endpoints
@@ -80,6 +87,17 @@ app.get('/api/player', (req, res) => {
         res.sendStatus(400)
     }
 })
+
+app.get("/", (req, res) => {
+    rollbar.info("someone visited the site")
+
+    res.sendFile(path.join(__dirname, "../public/index.html"))
+})
+
+
+
+
+rollbar.log("server started")
 
 const port = process.env.PORT || 3000
 
